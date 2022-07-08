@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API</title>
+</head>
+
+<body>
+
+    <select class="select" id="validation" >
+        <option selected disabled value="">Team</option>
+        <option>Pacers</option>
+        <option>Knicks</option>
+        <option>Celtics</option>
+        <option>Grizzlies</option>
+        <option>Raptors</option>
+        <option>Thunder</option>
+        <option>Pistons</option>
+        <option>Clippers</option>
+        <option>Warriors</option>
+        <option>76ers</option>
+        <option>Jazz</option>
+        <option>Kings</option>
+        <option>Cavaliers</option>
+        <option>Rockets</option>
+        <option>Trail Blazers</option>
+        <option>Hawks</option>
+        <option>Magic</option>
+      </select>
+
+      <button class="btn1">Sort by name</button>
+      <button class="btn2">Sort by team</button>
+      <button class="btn3">Sort by division</button>
+      <button class="btn4">Sort by id</button>
+<br>
+    <table border="5px">
+        <thead>
+            <th>id</th>
+            <th>FirstName</th>
+            <th>Division</th>
+            <th>TeamName</th>
+        </thead>
+        <tbody class="body">
+
+        </tbody>
+        <tbody class="embed">
+
+        </tbody>
+        <tbody class="sort1">
+
+        </tbody>
+    </table>
+
+    <script src="jquery.js"></script>
+
+    <script>
+
+        fetch('https://www.balldontlie.io/api/v1/players')
+            .then((data) => { return data.json(); })
+            .then((objectdata) => {
+                for (let key in objectdata.data) {
+                    document.querySelector(".body").innerHTML += `<div id='${key}'>
+              <tr><td>${objectdata.data[key].id}</td>  <td>${objectdata.data[key].first_name}</td> 
+            <td>${objectdata.data[key].team.division}</td><td>${objectdata.data[key].team.name}</td></tr>
+              </div>`;
+                }
+            });
+    </script>
+
+    <script>
+
+        $(document).ready(function(){
+            $('#validation').on('change',function(){
+                $('.body').remove();
+                var opt=$("#validation").children("option:selected").text();
+                fetch('https://www.balldontlie.io/api/v1/players')
+            .then((data) => { return data.json(); })
+            .then((objectdata) => {
+                for (let key in objectdata.data) {
+                    if (objectdata.data[key].team.name === opt) {
+                        document.querySelector(".embed").innerHTML += `<div id='${key}'>
+              <tr><td>${objectdata.data[key].id}</td>  <td>${objectdata.data[key].first_name}</td> 
+            <td>${objectdata.data[key].team.division}</td><td>${objectdata.data[key].team.name}</td></tr>
+              </div>`;
+                    }
+                }
+            }); 
+            });
+        })
+    </script>
+
+    <script>
+        $(document).ready(function(){
+            $('btn1').click(function(){
+                fetch('https://www.balldontlie.io/api/v1/players')
+            .then((data) => { return data.json(); })
+            .then((objectdata) => { return objectdata.data.sort(first_name);
+                for (let key in objectdata.data) {
+                   
+                        document.querySelector(".sort1").innerHTML += `<div id='${key}'>
+              <tr><td>${objectdata.data[key].id}</td>  <td>${objectdata.data[key].first_name}</td> 
+            <td>${objectdata.data[key].team.division}</td><td>${objectdata.data[key].team.name}</td></tr>
+              </div>`;
+                }
+            }); 
+            });
+            })
+    </script>
+
+</body>
+
+</html>
