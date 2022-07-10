@@ -10,8 +10,7 @@
 
 <body>
 
-    
-    <select class="selector" id="validation" onchange="opt(this)">
+      <select class="selector" id="validation" onchange="opt(this)">
         <option class="options">select Team</option>
       </select>
 
@@ -21,7 +20,6 @@
       <button class="btn4" onclick="sortbyid()">Sort by id</button>
 
       <input class="searching"><span><button class="btns" onclick="sub()">search</button></span></input>
-<br>
     <table border="5px">
         <thead>
             <th>id</th>
@@ -32,253 +30,181 @@
         <tbody class="body">
 
         </tbody>
-        <tbody class="embed">
-
-        </tbody>
-        <tbody class="sort1">
-
-        </tbody>
-        <tbody class="sort2">
-
-        </tbody>
-        <tbody class="sort3">
-
-        </tbody>
-        <tbody class="search">
-
-        </tbody>
-        <tbody class="selectopt">
-
-        </tbody>
     </table>
 
-    <script src="jquery.js"></script>
-
-    <script>
-             //script for load data to table
-
-             fetch('https://www.balldontlie.io/api/v1/players')
+<script src="jquery.js"></script>
+<script>
+            fetch('https://www.balldontlie.io/api/v1/players')  //script for fetch API data to table and Select options
             .then((data) => { return data.json(); })
-            .then((objectdata) => { objectdata.data.map(function(elements){
-                return document.querySelector(".body").innerHTML +=`<div id='${elements}'>
-                      <tr> <td>  ${elements.id} </td>   <td>   ${elements.first_name}  </td>
+            .then((objectdata) => { var ArrayData=objectdata.data.map(function(elements){
+                return elements;})
+
+                      ArrayData.map(function(elements){
+                      return document.querySelector(".body").innerHTML +=`<div id='${elements}'>
+                      <tr class='rows'> <td>  ${elements.id} </td>   <td>   ${elements.first_name}  </td>
                         <td>  ${elements.team.division} </td>   <td>   ${elements.team.name}  </td> </tr>
-                      </div>`;
-            })})
-
-            //script for load data to select options
-
-        fetch('https://www.balldontlie.io/api/v1/players')
-            .then((data) => { return data.json(); })
-            .then((objectdata) => { objectdata.data.map(function(elem){
-
-                return document.querySelector('.selector').innerHTML+=`<div id='${elem}'>
+                      </div>`;})
+                    
+                      ArrayData.map(function(elem){
+                      return document.querySelector('.selector').innerHTML+=`<div id='${elem}'>
                       <option>${elem.team.name}</option>
-                      </div>`;
+                      </div>`;})})
 
-                      
-           })
-                  
-                });
-
-                //script for sort by name
-
-                function sortbyname(){
-                    $('.body').remove();
+                    function sortbyname(){              //script for sort by name
+                    $('.rows').remove();
+                    $('.sortteam').remove();
+                    $('.sortdiv').remove();
+                    $('.sortid').remove();
+                    $('.selectedopt').remove();
+                    $('.searched').remove();
+                    
                     fetch('https://www.balldontlie.io/api/v1/players')
                     .then((data) => { return data.json(); })
                     .then((objectdata)=> {var newArray=objectdata.data.map(function(el){
-                        return el;
-                    })
+                        return el;})
                     var fname=newArray.sort(function(a,b){
                         if(a.first_name.toLowerCase() < b.first_name.toLowerCase()){
                         return -1;}
                         if(a.first_name.toLowerCase() > b.first_name.toLowerCase()){
                         return 1;}
-                        return 0;
-                    })
+                        return 0;})
                     fname.map(function(edcab){
-                        return document.querySelector(".embed").innerHTML +=`<div id='${edcab}'>
-                      <tr> <td>  ${edcab.id} </td>   <td>   ${edcab.first_name}  </td>
+                        return document.querySelector(".body").innerHTML +=`<div id='${edcab}'>
+                      <tr class='sortname'> <td>  ${edcab.id} </td>   <td>   ${edcab.first_name}  </td>
                         <td>  ${edcab.team.division} </td>   <td>   ${edcab.team.name}  </td> </tr>
-                      </div>`;
-                    })
-                })
-                }
+                      </div>`;})})}
 
-                //script for sort by team
-
-                function sortbyteam(){
-                    
-                    $('.embed').remove();
+                  function sortbyteam(){           //script for sort by team
+                    $('.rows').remove();
+                    $('.sortname').remove();
+                    $('.sortdiv').remove();
+                    $('.sortid').remove();
+                    $('.selectedopt').remove();
+                    $('.searched').remove();
                     
                     fetch('https://www.balldontlie.io/api/v1/players')
                     .then((data) => { return data.json(); })
                     .then((objectdata)=> {var newArray=objectdata.data.map(function(el){
-                        return el;
-                    })
+                        return el;})
                     var fname=newArray.sort(function(a,b){
                         if(a.team.name.toLowerCase() < b.team.name.toLowerCase()){
                         return -1;}
                         if(a.team.name.toLowerCase() > b.team.name.toLowerCase()){
                         return 1;}
-                        return 0;
-                    })
-                    fname.map(function(eflad){
-                        return document.querySelector(".sort1").innerHTML +=`<div id='${eflad}'>
-                      <tr> <td>  ${eflad.id} </td>   <td>   ${eflad.first_name}  </td>
-                        <td>  ${eflad.team.division} </td>   <td>   ${eflad.team.name}  </td> </tr>
-                      </div>`;
-                    })
-                })
-                }
+                        return 0;})
+                    fname.map(function(edcab){
+                        return document.querySelector(".body").innerHTML +=`<div id='${edcab}'>
+                      <tr class='sortteam'> <td>  ${edcab.id} </td>   <td>   ${edcab.first_name}  </td>
+                        <td>  ${edcab.team.division} </td>   <td>   ${edcab.team.name}  </td> </tr>
+                      </div>`;})})}
 
-                //script for sort by division
-
-
-                function sortbydiv(){
+                  function sortbydiv(){               //script for sort by division
                    
-                    $('.sort1').remove();
+                    $('.rows').remove();
+                    $('.sortname').remove();
+                    $('.sortteam').remove();
+                    $('.sortid').remove();
+                    $('.selectedopt').remove();
+                    $('.searched').remove();
                    
                     fetch('https://www.balldontlie.io/api/v1/players')
                     .then((data) => { return data.json(); })
                     .then((objectdata)=> {var newArray=objectdata.data.map(function(el){
-                        return el;
-                    })
+                        return el;})
                     var fname=newArray.sort(function(a,b){
                         if(a.team.division.toLowerCase() < b.team.division.toLowerCase()){
                         return -1;}
                         if(a.team.division.toLowerCase() > b.team.division.toLowerCase()){
                         return 1;}
-                        return 0;
-                    })
+                        return 0;})
                     fname.map(function(enums){
-                        return document.querySelector(".sort2").innerHTML +=`<div id='${enums}'>
-                      <tr> <td>  ${enums.id} </td>   <td>   ${enums.first_name}  </td>
+                        return document.querySelector(".body").innerHTML +=`<div id='${enums}'>
+                      <tr class='sortdiv'> <td>  ${enums.id} </td>   <td>   ${enums.first_name}  </td>
                         <td>  ${enums.team.division} </td>   <td>   ${enums.team.name}  </td> </tr>
-                      </div>`;
-                    })
-                })
-                }
+                      </div>`;})})}
 
-                //script for sort by Id
-
-
-                function sortbyid(){
-                    
-                    $('.sort2').remove();
+                function sortbyid(){          //script for sort by Id
+                    $('.rows').remove();
+                    $('.sortname').remove();
+                    $('.sortteam').remove();
+                    $('.sortdiv').remove();
+                    $('.selectedopt').remove();
+                    $('.searched').remove();
                     fetch('https://www.balldontlie.io/api/v1/players')
                     .then((data) => { return data.json(); })
                     .then((objectdata)=> {var newArray=objectdata.data.map(function(el){
-                        return el;
-                    })
+                        return el;})
                     var fname=newArray.sort(function(a,b){
-                        return a.id - b.id;
-                    })
+                        return a.id - b.id;})
                     fname.map(function(escad){
-                        return document.querySelector(".sort3").innerHTML +=`<div id='${escad}'>
-                      <tr> <td>  ${escad.id} </td>   <td>   ${escad.first_name}  </td>
+                        return document.querySelector(".body").innerHTML +=`<div id='${escad}'>
+                      <tr class='sortid'> <td>  ${escad.id} </td>   <td>   ${escad.first_name}  </td>
                         <td>  ${escad.team.division} </td>   <td>   ${escad.team.name}  </td> </tr>
-                      </div>`;
-                    })
-                })
-                }
+                      </div>`;})})}
 
-                //script for search data
-
-
-                function sub(){
-                    $('.body').remove();
-                    $('.embed').remove();
-                    $('.sort1').remove();
-                    $('.sort2').remove();
-                    $('.sort3').remove();
+                function sub(){                     //script for search data
+                    $('.rows').remove();
+                    $('.sortname').remove();
+                    $('.sortteam').remove();
+                    $('.sortdiv').remove();
+                    $('.sortid').remove();
+                    $('.selectedopt').remove();
                     
                     var values=document.querySelector('.searching').value;
                     fetch('https://www.balldontlie.io/api/v1/players')
                     .then((data) => { return data.json(); })
-                    .then((objectdata) => { var sketch=objectdata.data.filter(function(elements){
-                    return elements.id == values;})
-                    sketch.map(function(nos){
-                        return document.querySelector(".search").innerHTML +=`<div id='${nos}'>
-                      <tr> <td>  ${nos.id} </td>   <td>   ${nos.first_name}  </td>
+                    .then((objectdata) => { var sketch=objectdata.data.map(function(elements){
+                    return elements;})
+                    var sketcheds=sketch.filter(function(elemeted){
+                      return elemeted.id == values;})
+                    sketcheds.map(function(nos){
+                        return document.querySelector(".body").innerHTML +=`<div id='${nos}'>
+                      <tr class='searched'> <td>  ${nos.id} </td>   <td>   ${nos.first_name}  </td>
                         <td>  ${nos.team.division} </td>   <td>   ${nos.team.name}  </td> </tr>
-                      </div>`;
-                    })
-                    document.querySelector('.searching').value='';
-                })
-
-                fetch('https://www.balldontlie.io/api/v1/players')
-                    .then((data) => { return data.json(); })
-                    .then((objectdata) => { var sketched=objectdata.data.filter(function(elements){
+                      </div>`;})
+                    
+                    var sketched=sketch.filter(function(elements){
                     return elements.first_name == values;})
                     sketched.map(function(nos){
-                        return document.querySelector(".search").innerHTML +=`<div id='${nos}'>
-                      <tr> <td>  ${nos.id} </td>   <td>   ${nos.first_name}  </td>
+                        return document.querySelector(".body").innerHTML +=`<div id='${nos}'>
+                      <tr class='searched'> <td>  ${nos.id} </td>   <td>   ${nos.first_name}  </td>
                         <td>  ${nos.team.division} </td>   <td>   ${nos.team.name}  </td> </tr>
-                      </div>`;
-                    })
-                    document.querySelector('.searching').value='';
-                })
+                      </div>`;})
 
-                fetch('https://www.balldontlie.io/api/v1/players')
-                    .then((data) => { return data.json(); })
-                    .then((objectdata) => { var sketching=objectdata.data.filter(function(elements){
+                    var sketching=sketch.filter(function(elements){
                     return elements.team.division == values;})
                     sketching.map(function(nos){
-                        return document.querySelector(".search").innerHTML +=`<div id='${nos}'>
-                      <tr> <td>  ${nos.id} </td>   <td>   ${nos.first_name}  </td>
+                        return document.querySelector(".body").innerHTML +=`<div id='${nos}'>
+                      <tr class='searched'> <td>  ${nos.id} </td>   <td>   ${nos.first_name}  </td>
                         <td>  ${nos.team.division} </td>   <td>   ${nos.team.name}  </td> </tr>
-                      </div>`;
-                    })
-                    document.querySelector('.searching').value='';
-                })
-
-                fetch('https://www.balldontlie.io/api/v1/players')
-                    .then((data) => { return data.json(); })
-                    .then((objectdata) => { var sketchs=objectdata.data.filter(function(elements){
+                      </div>`;})
+                    
+                    var sketchs=sketch.filter(function(elements){
                     return elements.team.name == values;})
                     sketchs.map(function(nos){
-                        return document.querySelector(".search").innerHTML +=`<div id='${nos}'>
-                      <tr> <td>  ${nos.id} </td>   <td>   ${nos.first_name}  </td>
+                        return document.querySelector(".body").innerHTML +=`<div id='${nos}'>
+                      <tr class='searched'> <td>  ${nos.id} </td>   <td>   ${nos.first_name}  </td>
                         <td>  ${nos.team.division} </td>   <td>   ${nos.team.name}  </td> </tr>
-                      </div>`;
-                    })
-                    document.querySelector('.searching').value='';
-                })
-                          
-                }
+                      </div>`;})})
+                    document.querySelector('.searching').value='';}
 
-                //script for Select options
-
-                function opt(e){
+                function opt(e){                 //script for Select options
                     var bag = e.value;
-                    $('.body').remove();
-                    $('.embed').remove();
-                    $('.sort1').remove();
-                    $('.sort2').remove();
-                    $('.sort3').remove();
-                    $('.search').remove();
+                    $('.rows').remove();
+                    $('.sortname').remove();
+                    $('.sortteam').remove();
+                    $('.sortdiv').remove();
+                    $('.sortid').remove();
+                    $('.searched').remove();
                     fetch('https://www.balldontlie.io/api/v1/players')
                     .then((data) => { return data.json(); })
                     .then((objectdata) => { var maintain=objectdata.data.filter(function(elements){
                     return elements.team.name == bag;})
                     maintain.map(function(nums){
-                        return document.querySelector(".selectopt").innerHTML +=`<div id='${nums}'>
-                      <tr> <td>  ${nums.id} </td>   <td>   ${nums.first_name}  </td>
+                        return document.querySelector(".body").innerHTML +=`<div id='${nums}'>
+                      <tr class='selectedopt'> <td>  ${nums.id} </td>   <td>   ${nums.first_name}  </td>
                         <td>  ${nums.team.division} </td>   <td>   ${nums.team.name}  </td> </tr>
-                      </div>`;
-                    })
-                })
-                    
-                }
-
-
-                
-
-    </script>
-
-
+                      </div>`;})})}
+</script>
 </body>
-
 </html>
